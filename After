@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LogPickUpScript : MonoBehaviour
+{
+    HotbarScript HotBar;
+    Sprite ItemSprite;
+    public string ItemName = "log";
+    public int Index;
+    BuildingScript Building;
+
+    void Start()
+    {
+        Building = GameObject.Find("woodA").GetComponent<BuildingScript>();
+        ItemSprite = GameObject.Find("wood").GetComponent<SpriteRenderer>().sprite;
+        HotBar = GameObject.Find("HotBar").GetComponent<HotbarScript>();
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            for (int i = 0; i < HotBar.ItemHolder.Count; i++) // loops thru hotbar and if no picture then sets it as a picture
+            {
+                if (HotBar.ItemHolder[i].sprite.name == "log")
+                    {
+                         Building.id = i;
+                         Building.AmountOfBlocks ++;
+                         HotBar.ItemAmount[i] ++;
+                         Index = i;
+                         Destroy(gameObject); // self destructs
+                         break;
+                    }
+
+                if (HotBar.ItemHolder[i].sprite.name == "Nothing")
+                {
+                    Building.id = i;
+                    Building.AmountOfBlocks ++;
+                    HotBar.ItemAmount[i] ++;
+                    HotBar.ItemHolder[i].sprite = ItemSprite;
+                    HotBar.SlotOccupied[i] = true;
+                    HotBar.ItemName[i] = ItemName;
+                    HotBar.HasItem[i] = true;
+                    Index = i;
+
+                    if (HotBar.CurrentSlot == i)
+                    {
+                      HotBar.EquipNewItem(1);
+                    }
+
+                    Destroy(gameObject); // self destructs
+                    break;
+                }
+            }
+
+            Destroy(gameObject, 5f);
+        }
+       
+    }
+}
