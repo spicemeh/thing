@@ -1,0 +1,6 @@
+# thing
+byg
+
+the error is
+NullReferenceException: Object reference not set to an instance of an object
+LogPickUpScript.OnCollisionEnter2D (UnityEngine.Collision2D collision) (at Assets/scripts/LogPickUpScript.cs:24)
